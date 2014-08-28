@@ -69,6 +69,28 @@ function numberToPiece(num) {
 	}
 }
 
+function pieceToNumber(piece) {
+    switch(piece) {
+        case "P":
+            return 0;
+            break;
+        case "N":
+            return 1;
+            break;
+        case "B":
+            return 2;
+            break;
+        case "R":
+            return 3;
+            break;
+        case "Q":
+            return 4;
+            break;
+        default:
+            return false;
+    }
+}
+
 function getPieceImage(piece) {
 	var image = piece.color + piece.type;
 	return getImage(image);	
@@ -202,117 +224,39 @@ Board.prototype.drawGrave = function() {
 	this.piecesCtx.clearRect(this.BoardXOffset + this.graveXPad, this.boardYOffset + this.spaceSize*8 + this.graveYPad,
 								this.graveSpaceSize * 7, this.graveSpaceSize+3);
 	
-
 	for(var x=0; x<5; x++) {
 		if(this.whiteDead[x] > 0) {
 			var piece = numberToPiece(x);
 			var img = getPieceImage("w" + piece);
 			this.piecesCtx.drawImage(img, this.boardXOffset + this.graveXPad + this.graveSpaceSize*.5 - img.width/2, 
 											this.boardYOffset + (this.spaceSize * (7-y)) + .95*this.spaceSize-img.height);
-			
-			
 		}
 	}
-	
-	
-	i=0;
-	
-	
-	
 }
 
 Board.prototype.removeFromGrave = function (color, piece) {
+    var num = pieceToNumber(piece);
 	if (color == "w") {
-		switch(piece) {
-			case "P":
-			  this.whiteDead[0] = Math.max(0, this.whiteDead[0]-1);
-			  break;
-			case "N":
-			  this.whiteDead[1] = Math.max(0, this.whiteDead[1]-1);
-			  break;
-			case "B":
-			  this.whiteDead[2] = Math.max(0, this.whiteDead[2]-1);
-			  break;  
-			case "R":
-			  this.whiteDead[3] = Math.max(0, this.whiteDead[3]-1);
-			  break;
-			case "Q":
-			  this.whiteDead[4] = Math.max(0, this.whiteDead[4]-1);
-			  break;
-			default:
-				return false;
-		}
-	} else if (color == "black") {
-		switch(piece) {
-			case "P":
-			  this.blackDead[0] = Math.max(0, this.blackDead[0]-1);
-			  break;
-			case "N":
-			  this.blackDead[1] = Math.max(0, this.blackDead[1]-1);
-			  break;
-			case "B":
-			  this.blackDead[2] = Math.max(0, this.blackDead[2]-1);
-			  break;  
-			case "R":
-			  this.blackDead[3] = Math.max(0, this.blackDead[3]-1);
-			  break;
-			case "Q":
-			  this.blackDead[4] = Math.max(0, this.blackDead[4]-1);
-			  break;
-			default:
-				return false;
-		}
+        this.whiteDead[num] = Math.max(0, this.whiteDead[num]-1);
+	
+    } else if (color == "b") {
+        this.blackDead[num] = Math.max(0, this.blackDead[num]-1);
+		
 	} else {
 		return false;
 	}
-	return true;
 }
 Board.prototype.sendToGrave = function (color, piece) {
-
+    var num = pieceToNumber(piece);
 	if (color == "w") {
-		switch(piece) {
-			case "P":
-			  this.whiteGrave[0]++;
-			  break;
-			case "N":
-			  this.whiteGrave[1]++;
-			  break;
-			case "B":
-			  this.whiteGrave[2]++;
-			  break;  
-			case "R":
-			  this.whiteGrave[3]++;
-			  break;
-			case "Q":
-			  this.whiteGrave[4]++;
-			  break;
-			default:
-				return false;
-		}
-	} else if (color == "black") {
-		switch(piece) {
-			case "P":
-			  this.blackGrave[0]++;
-			  break;
-			case "N":
-			  this.blackGrave[1]++;
-			  break;
-			case "B":
-			  this.blackGrave[2]++;
-			  break;  
-			case "R":
-			  this.blackGrave[3]++;
-			  break;
-			case "Q":
-			  this.blackGrave[4]++;
-			  break;
-			default:
-				return false;
-		}
+        this.whiteDead[num]++;
+        
+	} else if (color == "b") {
+        this.blackGrave[num]++;
+        
 	} else {
 		return false;
 	}
-	return true;
 }
 
 Board.prototype.setupBoard = function () {
