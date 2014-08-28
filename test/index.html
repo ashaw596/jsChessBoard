@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title>Bughouse Chess New Game</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $("#quick").click(function(){
+		    	val=$("#name").val();
+		        window.location.href='test.html?type=invite'+'&name='+val;
+		    }); 
+		    $("#invite").click(function(){
+		    	val=$("#name").val();
+		        window.location.href='test.html?type=invite'+'&name='+val;
+		    });
+		});
+	</script>
+</head>
+<body>
+<h3>Pick a game type:</h3>
+Name: <input type="text" id="name" /><br />
+<button id="quick">Quick game</button> <button id="invite">Invite only</button>
+</html>
